@@ -13,9 +13,6 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.util.List;
-
-
 @SpringBootApplication
 @EnableSwagger2
 public class EducationClassDatabaseApplication {
@@ -31,20 +28,32 @@ public class EducationClassDatabaseApplication {
     }
 
     @Bean
-    CommandLineRunner commandLineRunner(StudentRepository studentRepository) {
+    CommandLineRunner commandLineRunner(StudentRepository studentRepository, StudentIdCardRepository studentIdCardRepository) {
         return args -> {
-            GenerateRandomNumbers(studentRepository);
+            Faker faker = new Faker();
 
-            PageRequest pageRequest = PageRequest.of(0, 6, Sort.by("firstName").descending());
-            Page<Student> studentPage = studentRepository.findAll(pageRequest);
-            System.out.println("studentPage = " + studentPage.getContent());
+            String firstName = faker.name().firstName();
+            String lastName = faker.name().lastName();
+            String email = String.format("%s.%s@amigoscode.edu", firstName, lastName);
+            Student student = new Student(
+                    firstName,
+                    lastName,
+                    email,
+                    faker.number().numberBetween(17, 55));
+
+            StudentIdCard studentIdCard = new StudentIdCard(
+                    "123456789",
+                    student);
+
+            studentIdCardRepository.save(studentIdCard);
+
         };
     }
 
-    private void sorting(StudentRepository studentRepository) {
-        Sort sort = Sort.by("firstName").descending().and(Sort.by("age").ascending());
-        studentRepository.findAll(sort).forEach(Student -> System.out.println(Student.getFirstName() + " " + Student.getAge()));
-    }
+//    private void sorting(StudentRepository studentRepository) {
+//        Sort sort = Sort.by("firstName").descending().and(Sort.by("age").ascending());
+//        studentRepository.findAll(sort).forEach(Student -> System.out.println(Student.getFirstName() + " " + Student.getAge()));
+//    }
 
     private void GenerateRandomNumbers(StudentRepository studentRepository) {
         Faker faker = new Faker();
