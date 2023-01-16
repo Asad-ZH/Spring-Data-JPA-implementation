@@ -4,6 +4,9 @@ import org.springframework.boot.SpringApplication;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity(name = "Student")
@@ -36,9 +39,17 @@ public class Student {
     private Integer age;
 
     @OneToOne(
-            mappedBy = "student"
+            mappedBy = "student",
+            orphanRemoval = true
     )
     private StudentIdCard studentIdCard;
+
+    @OneToMany(
+            mappedBy = "student",
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            orphanRemoval = true
+    )
+    private List<Book> books = new ArrayList<>();
 
     public Student() {
     }
@@ -88,6 +99,20 @@ public class Student {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public void addBook(Book book) {
+        if(this.books.contains(book)){
+            this.books.add(book);
+            book.setStudent(this);
+        }
+    }
+
+    public void removeBook(Book book) {
+        if(this.books.contains(book)){
+            this.books.remove(book);
+            book.setStudent(null);
+        }
     }
 
     @Override

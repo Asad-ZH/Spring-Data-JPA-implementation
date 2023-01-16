@@ -13,6 +13,8 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import java.time.LocalDateTime;
+
 @SpringBootApplication
 @EnableSwagger2
 public class EducationClassDatabaseApplication {
@@ -41,10 +43,20 @@ public class EducationClassDatabaseApplication {
                     email,
                     faker.number().numberBetween(17, 55));
 
+            student.addBook(
+                    new Book("Clean Code", LocalDateTime.now().minusDays(4)));
+
+
+            student.addBook(
+                    new Book("Think and Grow Rich", LocalDateTime.now()));
+
+
+            student.addBook(
+                    new Book("Spring Data JPA", LocalDateTime.now().minusYears(1)));
+
             StudentIdCard studentIdCard = new StudentIdCard(
                     "123456789",
                     student);
-
             studentIdCardRepository.save(studentIdCard);
 
         };
@@ -66,7 +78,9 @@ public class EducationClassDatabaseApplication {
                     lastName,
                     email,
                     faker.number().numberBetween(17, 55));
-            studentRepository.save(student);
+
+
+
         }
     }
 
