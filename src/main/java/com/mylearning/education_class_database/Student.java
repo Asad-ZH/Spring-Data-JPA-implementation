@@ -40,14 +40,16 @@ public class Student {
 
     @OneToOne(
             mappedBy = "student",
-            orphanRemoval = true
+            orphanRemoval = true,
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
     )
     private StudentIdCard studentIdCard;
 
     @OneToMany(
             mappedBy = "student",
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
-            orphanRemoval = true
+            orphanRemoval = true,
+            fetch = FetchType.EAGER
     )
     private List<Book> books = new ArrayList<>();
 
@@ -115,9 +117,16 @@ public class Student {
         }
     }
 
+    public void setStudentIdCard(StudentIdCard studentIdCard) {
+      this.studentIdCard = studentIdCard;
+    }
+
     @Override
     public String toString() {
         return "Student{" + "id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", age=" + age + '}';
     }
 
+    public List<Book> getBooks() {
+        return books;
+    }
 }

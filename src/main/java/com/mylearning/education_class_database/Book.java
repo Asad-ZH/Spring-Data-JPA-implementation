@@ -10,6 +10,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @Entity(name = "Book")
 @Table(name = "book")
 public class Book {
+
     @Id
     @SequenceGenerator(
             name = "student_sequence",
@@ -26,7 +27,7 @@ public class Book {
     @Column(name = "created_at", nullable = false, columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private LocalDateTime createdAt;
 
-    @Column(name = "book_name", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "book_name", nullable = false,  columnDefinition = "TEXT")
     private String bookName;
 
     @ManyToOne
@@ -90,5 +91,4 @@ public class Book {
                 ", student=" + student +
                 '}';
     }
-
 }

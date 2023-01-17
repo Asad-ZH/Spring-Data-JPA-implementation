@@ -27,6 +27,7 @@ public class StudentIdCard {
             generator = "student_sequence"
     )
     private Long id;
+
     @Column(name = "card_number", length = 15, nullable = false, columnDefinition = "TEXT")
     private String cardNumber;
 
