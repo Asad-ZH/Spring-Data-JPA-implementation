@@ -40,8 +40,8 @@ public class Course {
     )
     private String department;
 
-    @ManyToMany(mappedBy = "courses")
-    private List<Student> students = new ArrayList<>();
+    @OneToMany(mappedBy = "course", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Enrolment> enrolments = new ArrayList<>();
 
 //    @OneToMany(
 //            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
@@ -81,23 +81,20 @@ public class Course {
         this.department = department;
     }
 
-    public List<Student> getStudents() {
-        return students;
+
+    public List<Enrolment> getEnrolments() {
+        return enrolments;
     }
 
-//    public List<Enrolment> getEnrolments() {
-//        return enrolments;
-//    }
-//
-//    public void addEnrolment(Enrolment enrolment) {
-//        if (!enrolments.contains(enrolment)) {
-//            enrolments.add(enrolment);
-//        }
-//    }
+    public void addEnrolment(Enrolment enrolment) {
+        if (!enrolments.contains(enrolment)) {
+            enrolments.add(enrolment);
+        }
+    }
 
-//    public void removeEnrolment(Enrolment enrolment) {
-//        enrolments.remove(enrolment);
-//    }
+    public void removeEnrolment(Enrolment enrolment) {
+        enrolments.remove(enrolment);
+    }
 
     @Override
     public String toString() {

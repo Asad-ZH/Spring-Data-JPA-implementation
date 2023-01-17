@@ -59,15 +59,22 @@ public class EducationClassDatabaseApplication {
                     faker.number().toString(),
                     student);
 
-            student.enrolToCourse(
-                    new Course("ipdc","course1")
-            );
-            student.enrolToCourse(
-                    new Course("gd","course2")
-            );
-            student.enrolToCourse(
-                    new Course("mis","course3")
-            );
+//            student.enrolToCourse(
+//                    new Course("ipdc","course1")
+//            );
+//            student.enrolToCourse(
+//                    new Course("gd","course2")
+//            );
+//            student.enrolToCourse(
+//                    new Course("mis","course3")
+//            );
+
+            student.addEnrollment(new Enrolment(
+                    new EnrolmentId(142L, 1423L),
+                    student,
+                    new Course("Computer Science", "IT"),
+                    LocalDateTime.now()
+            ));
 
             student.setStudentIdCard(studentIdCard);
 

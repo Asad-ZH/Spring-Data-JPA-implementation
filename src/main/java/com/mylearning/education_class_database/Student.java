@@ -52,22 +52,11 @@ public class Student {
     )
     private List<Book> books = new ArrayList<>();
 
-    @ManyToMany(
-            cascade = {CascadeType.PERSIST, CascadeType.REMOVE}
-//            fetch = FetchType.EAGER
+    @OneToMany(
+            cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
+            mappedBy = "student"
     )
-    @JoinTable(
-            name = "enrolment",
-            joinColumns = @JoinColumn(
-                    name = "student_id",
-                    foreignKey = @ForeignKey(name = "enrolment_student_id_fk")
-            ),
-            inverseJoinColumns = @JoinColumn(
-                    name = "course_id",
-                    foreignKey = @ForeignKey(name = "enrollment_course_id_fk")
-            )
-    )
-    private List<Course> courses = new ArrayList<>();
+    private List<Enrolment> enrolments = new ArrayList<>();
     public Student() {
     }
 
@@ -140,14 +129,22 @@ public class Student {
       this.studentIdCard = studentIdCard;
     }
 
-    public void enrolToCourse(Course course) {
-        this.courses.add(course);
-        course.getStudents().add(this);
+    public List<Enrolment> getEnrolments() {
+        return enrolments;
     }
 
-    public void unEnrolToCourse(Course course) {
-        this.courses.remove(course);
-        course.getStudents().remove(this);
+    public void addEnrollment(Enrolment enrolment) {
+        if(!this.enrolments.contains(enrolment)){
+            this.enrolments.add(enrolment);
+            enrolment.setStudent(this);
+        }
+    }
+
+    public void removeEnrollment(Enrolment enrolment) {
+        if(this.enrolments.contains(enrolment)){
+            this.enrolments.remove(enrolment);
+            enrolment.setStudent(null);
+        }
     }
 
     @Override
