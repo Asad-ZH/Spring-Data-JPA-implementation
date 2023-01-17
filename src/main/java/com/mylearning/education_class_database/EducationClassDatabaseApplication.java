@@ -56,8 +56,18 @@ public class EducationClassDatabaseApplication {
                     new Book("Spring Data JPA", LocalDateTime.now().minusYears(1)));
 
             StudentIdCard studentIdCard = new StudentIdCard(
-                    "123456789",
+                    faker.number().toString(),
                     student);
+
+            student.enrolToCourse(
+                    new Course("ipdc","course1")
+            );
+            student.enrolToCourse(
+                    new Course("gd","course2")
+            );
+            student.enrolToCourse(
+                    new Course("mis","course3")
+            );
 
             student.setStudentIdCard(studentIdCard);
 

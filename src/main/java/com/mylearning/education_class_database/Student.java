@@ -48,8 +48,7 @@ public class Student {
     @OneToMany(
             mappedBy = "student",
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
-            orphanRemoval = true,
-            fetch = FetchType.EAGER
+            orphanRemoval = true
     )
     private List<Book> books = new ArrayList<>();
 
@@ -124,7 +123,7 @@ public class Student {
     }
 
     public void addBook(Book book) {
-        if(this.books.contains(book)){
+        if(!this.books.contains(book)){
             this.books.add(book);
             book.setStudent(this);
         }
